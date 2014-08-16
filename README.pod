@@ -1,0 +1,108 @@
+=head1 NAME
+
+Math::Shape::Point
+
+=head1 VERSION
+
+version 0.05
+
+=head1 SYNOPSIS
+
+    use Math::Shape::Point;
+    use Math::Trig ':pi';
+
+    my $p0 = Math::Shape::Point->new(0, 0, 0);
+    my $p1 = Math::Shape::Point->new(5, 5, 0);
+    $p0->rotateAboutPoint($p1, pip2);
+    my $angle = $p0->getAngleToPoint($p1);
+    my $distance = $p0->getDistanceToPoint($p1);
+
+=head1 DESCRIPTION
+
+This module is designed to provide some useful 2d functions for manipulating point shapes in cartesian space. Advanced features include rotating around another point, calculating the distance to a point and the calculating the angle to another point. The module uses cartesian coordinates and radians throughout.
+
+=head1 NAME
+
+Math::Shape::Point - a 2d point object in cartesian space with utility angle methods
+
+=head1 METHODS
+
+=head2 new
+
+Instantiates a new point object. Requires the x and y cartesian coordinates and the facing direction in radians.
+
+=head2 getLocation
+
+Returns an arrayref containing the point's location in cartesian coordinates.
+
+=head2 setLocation
+
+Sets the point's location in cartesian coordinates. Requires two numbers as inputs for the x and y location.
+
+=head2 getDirection
+
+Returns the current facing direction in radians.
+
+=head2 setDirection
+
+Sets the current facing direction in radians.
+
+=head2 advance
+
+Requires a numeric distance argument - moves the point forward that distance in Cartesian coordinates towards the direction it is facing.
+
+=head2 rotate
+
+Updates the point's facing direction by radians.
+
+=head2 rotateAboutPoint
+
+Rotates the point around another point of origin. Requires a point object and the angle in radians to rotate. This method updates the facing direction of the point object, as well as it's location.
+
+=head2 getDistanceToPoint
+
+Returns the distance to another point object. Requires a point object as an argument.
+
+=head2 getAngleToPoint
+
+Returns the angle of another point object. Requires a point as an argument.
+
+=head2 getDirectionToPoint
+
+Returns the direction of another point objection as a string (front, right, back or left). Assumes a 90 degree angle per direction.  Requires a point object as an argument.
+
+=head2 normalizeRadian
+
+Takes a radian argument and returns it between 0 and PI2. Negative numbers are assumed to be backwards (e.g. -1.57 == PI + PI / 2)
+
+=head1 AUTHOR
+
+David Farrell, C<< <davidnmfarrell at gmail.com> >>, L<perltricks.com|http://perltricks.com>
+
+=head1 BUGS
+
+Please report any bugs or feature requests to C<bug-math-shape-point at rt.cpan.org>, or through
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=math-shape-point>.  I will be notified, and then you'll automatically be notified of 
+progress on your bug as I make changes.
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc Math::Shape::Point
+
+=head1 REPOSITORY
+
+L<https://github.com/sillymoose/Math-Shape-Point.git>
+
+=head1 AUTHOR
+
+David Farrell <sillymoos@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by David Farrell.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
