@@ -1,5 +1,8 @@
 Revision history for Math-Shape-Point
 
+0.07    2014/08/24
+        -Fixed TravisCI build image link in POD
+
 0.06    2014/08/24
         -Added TravisCI
 

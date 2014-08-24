@@ -7,12 +7,9 @@ use Math::Trig ':pi';
 use Regexp::Common;
 use Carp 'croak';
 
-=head1 NAME
+#ABSTRACT: a 2d point object in cartesian space with utility angle methods
 
-Math::Shape::Point - a 2d point object in cartesian space with utility angle methods
-
-=for html
-<a href="https://travis-ci.org/sillymoose/Math-Shape-Point-pm.png"><img src="https://travis-ci.org/sillymoose/Math-Shape-Point-pm.png alt="Math-Shape-Point-pm"></a>
+=for HTML <a href="https://travis-ci.org/sillymoose/Math-Shape-Point"><img src="https://travis-ci.org/sillymoose/Math-Shape-Point.svg?branch=master"></a>
 
 =head1 DESCRIPTION
 
