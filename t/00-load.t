@@ -10,4 +10,4 @@ BEGIN {
     use_ok( 'Math::Shape::Point' ) || print "Bail out!\n";
 }
 
-diag( "Testing Math::Shape::Point $Math::Shape::Point::VERSION, Perl $], $^X" );
+diag( "Testing Math::Shape::Point, Perl $], $^X" );

@@ -58,7 +58,6 @@ ok($p->normalizeRadian(pip2), 'normalizeRadian pip2');
 ok($p->normalizeRadian(pip4), 'normalizeRadian pip4');
 
 # getDirection
-use Data::Dumper;
 ok($p0->setDirection(0), 'set direction 0');
 ok($p1->setDirection(0), 'set direction 0');
 ok($p0->setLocation(1,1), 'set location 1 1');
