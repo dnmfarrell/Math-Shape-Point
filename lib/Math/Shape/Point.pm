@@ -2,14 +2,14 @@ package Math::Shape::Point;
 
 use strict;
 use warnings;
-use Method::Signatures;
 use Math::Trig ':pi';
 use Regexp::Common;
 use Carp 'croak';
 
-#ABSTRACT: a 2d point object in cartesian space with utility angle methods
+# ABSTRACT: a 2d point object in cartesian space with utility angle methods
 
 =for HTML <a href="https://travis-ci.org/sillymoose/Math-Shape-Point"><img src="https://travis-ci.org/sillymoose/Math-Shape-Point.svg?branch=master"></a>
+<a href='https://coveralls.io/r/sillymoose/Math-Shape-Point'><img src='https://coveralls.io/repos/sillymoose/Math-Shape-Point/badge.png' alt='Coverage Status' /></a>
 
 =head1 DESCRIPTION
 
@@ -34,7 +34,8 @@ Instantiates a new point object. Requires the x and y cartesian coordinates and 
 
 =cut
 
-func new ($class, $x where { $_ =~ /$RE{num}{real}/ }, $y where { $_ =~ /$RE{num}{real}/ }, $r where { $_ =~ /$RE{num}{real}/ }) {
+sub new {
+    my ($class, $x, $y, $r) = @_;
     my $self = { 
         x => $x,
         y => $y,
@@ -43,16 +44,13 @@ func new ($class, $x where { $_ =~ /$RE{num}{real}/ }, $y where { $_ =~ /$RE{num
     return bless $self, $class;
 }
 
-
 =head2 getLocation
 
 Returns an arrayref containing the point's location in cartesian coordinates.
 
 =cut
 
-method getLocation () {
-    return [$self->{x}, $self->{y}];
-}
+sub getLocation { [$_[0]->{x}, $_[0]->{y}] }
 
 
 =head2 setLocation
@@ -61,12 +59,12 @@ Sets the point's location in cartesian coordinates. Requires two numbers as inpu
 
 =cut
 
-method setLocation ($x where { $_ =~ /$RE{num}{real}/ }, $y where { $_ =~ /$RE{num}{real}/ } ) {
+sub setLocation {
+    my ($self, $x, $y) = @_;
     $self->{x} = $x;
     $self->{y} = $y;
     1;
 }
-
 
 =head2 getDirection
 
@@ -74,10 +72,9 @@ Returns the current facing direction in radians.
 
 =cut
 
-method getDirection () {
-    return $self->{r};
+sub getDirection {
+    return $_[0]->{r};
 }
-
 
 =head2 setDirection
 
@@ -85,11 +82,10 @@ Sets the current facing direction in radians.
 
 =cut
 
-method setDirection ($r where { $_ =~ /$RE{num}{real}/ } ) {
-    $self->{r} = $self->normalizeRadian($r);
+sub setDirection {
+    $_[0]->{r} = $_[0]->normalizeRadian($_[1]);
     1;
 }
-
 
 =head2 advance
 
@@ -97,12 +93,11 @@ Requires a numeric distance argument - moves the point forward that distance in 
 
 =cut
 
-method advance ($distance where { $_ > 0 } where { $_ =~ /$RE{num}{real}/ } ) {
-    $self->{x} += int(sin($self->{r}) * $distance);
-    $self->{y} += int(cos($self->{r}) * $distance);
+sub advance {
+    $_[0]->{x} += int(sin($_[0]->{r}) * $_[1]);
+    $_[0]->{y} += int(cos($_[0]->{r}) * $_[1]);
     1;
 }
-
 
 =head2 rotate
 
@@ -110,11 +105,10 @@ Updates the point's facing direction by radians.
 
 =cut
 
-method rotate ($r where { $_ =~ /$RE{num}{real}/ } ) {
-    $self->{r} = $self->{r} + $self->normalizeRadian($r);
+sub rotate {
+    $_[0]->{r} = $_[0]->{r} + $_[0]->normalizeRadian($_[1]);
     1;
 }
-
 
 =head2 rotateAboutPoint
 
@@ -122,7 +116,8 @@ Rotates the point around another point of origin. Requires a point object and th
 
 =cut
 
-method rotateAboutPoint (Math::Shape::Point $origin, $r where { $_ =~ /$RE{num}{real}/ } ) {
+sub rotateAboutPoint {
+    my ($self, $origin, $r) = @_;
     $r = $self->normalizeRadian($r);
     $self->{x} = $origin->{x} + int(cos($r) * ($self->{x} - $origin->{x}) - sin($r) * ($self->{y} - $origin->{y}));
     $self->{y} = $origin->{y} + int(sin($r) * ($self->{x} - $origin->{x}) + cos($r) * ($self->{y} - $origin->{y}));
@@ -130,17 +125,15 @@ method rotateAboutPoint (Math::Shape::Point $origin, $r where { $_ =~ /$RE{num}{
     1;
 }
 
-
 =head2 getDistanceToPoint
 
 Returns the distance to another point object. Requires a point object as an argument.
 
 =cut
 
-method getDistanceToPoint (Math::Shape::Point $p) {
-    return sqrt ( abs($self->{x} - $p->{x}) ** 2 + abs($self->{y} - $p->{y}) ** 2);
+sub getDistanceToPoint {
+    sqrt ( abs($_[0]->{x} - $_[1]->{x}) ** 2 + abs($_[0]->{y} - $_[1]->{y}) ** 2);
 }
-
 
 =head2 getAngleToPoint
 
@@ -148,7 +141,8 @@ Returns the angle of another point object. Requires a point as an argument.
 
 =cut
 
-method getAngleToPoint (Math::Shape::Point $p) {
+sub getAngleToPoint {
+    my ($self, $p) = @_;
 
     # check points are not at the same location
     if ($self->getLocation->[0] == $p->getLocation->[0]
@@ -156,7 +150,7 @@ method getAngleToPoint (Math::Shape::Point $p) {
     {
         croak 'Error: points are at the same location';
     }
-    
+
     my $atan = atan2($p->{y} - $self->{y}, $p->{x} - $self->{x});
 
     if ($atan <= 0) { # lower half
@@ -176,7 +170,8 @@ Returns the direction of another point objection as a string (front, right, back
 
 =cut
 
-method getDirectionToPoint (Math::Shape::Point $p) {
+sub getDirectionToPoint {
+    my ($self, $p) = @_;
     my $angle = $self->getAngleToPoint($p);
     if    ($angle > 0 - pip4  && $angle <= pip4)      { return 'front' }
     elsif ($angle > pip4      && $angle <= pi - pip4) { return 'right' }
@@ -190,7 +185,8 @@ Takes a radian argument and returns it between 0 and PI2. Negative numbers are a
 
 =cut
 
-method normalizeRadian ($radians where { $_ =~ /$RE{num}{real}/ }) {
+sub normalizeRadian {
+    my ($self, $radians) = @_;
     my $piDecimal = ($radians / pi2 - int($radians / pi2));
     return $piDecimal < 0 ? pi2 + $piDecimal * pi2 : $piDecimal * pi2;
 }

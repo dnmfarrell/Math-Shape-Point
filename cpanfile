@@ -1,6 +1,5 @@
 requires "Carp" => "0";
 requires "Math::Trig" => "0";
-requires "Method::Signatures" => "0";
 requires "Regexp::Common" => "0";
 requires "strict" => "0";
 requires "warnings" => "0";

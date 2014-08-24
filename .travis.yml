@@ -9,3 +9,19 @@ perl:
   - "5.14"
   - "5.12"
   - "5.10"
+  - "5.8"
+
+install:
+  - cpanm --quiet --notest
+    Devel::Cover::Report::Coveralls
+    Test::Base
+
+script:
+  - test -e test &&
+    PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine
+    prove -lv test/
+    || true
+  - test -e test && cover || true
+
+after_success:
+  - cover -report coveralls

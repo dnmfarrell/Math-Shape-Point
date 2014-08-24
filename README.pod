@@ -8,7 +8,7 @@ Math::Shape::Point - a 2d point object in cartesian space with utility angle met
 
 =head1 VERSION
 
-version 0.07
+version 0.08
 
 =head1 SYNOPSIS
 
@@ -26,6 +26,7 @@ version 0.07
 This module is designed to provide some useful 2d functions for manipulating point shapes in cartesian space. Advanced features include rotating around another point, calculating the distance to a point and the calculating the angle to another point. The module uses cartesian coordinates and radians throughout.
 
 =for HTML <a href="https://travis-ci.org/sillymoose/Math-Shape-Point"><img src="https://travis-ci.org/sillymoose/Math-Shape-Point.svg?branch=master"></a>
+<a href='https://coveralls.io/r/sillymoose/Math-Shape-Point'><img src='https://coveralls.io/repos/sillymoose/Math-Shape-Point/badge.png' alt='Coverage Status' /></a>
 
 =head1 METHODS
 
