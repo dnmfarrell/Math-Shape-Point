@@ -1,7 +1,4 @@
 language: perl
-script: prove -lr t
-install:
-  - cpanm -n -q --skip-satisfied --installdeps .
 perl:
   - "5.20"
   - "5.18"
@@ -10,18 +7,16 @@ perl:
   - "5.12"
   - "5.10"
   - "5.8"
+  - "5.6"
 
 install:
-  - cpanm --quiet --notest
-    Devel::Cover::Report::Coveralls
-    Test::Base
+  - export RELEASE_TESTING=1 AUTOMATED_TESTING=1 AUTHOR_TESTING=1 HARNESS_OPTIONS=c HARNESS_TIMER=1
+  - cpanm --quiet --notest Devel::Cover::Report::Coveralls
+  - cpanm --quiet --notest --installdeps .
 
 script:
-  - test -e test &&
-    PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine
-    prove -lv test/
-    || true
-  - test -e test && cover || true
+  - PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -lrsv t
+  - cover
 
 after_success:
   - cover -report coveralls
