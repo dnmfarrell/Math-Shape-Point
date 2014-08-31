@@ -2,6 +2,7 @@ package Math::Shape::Point;
 
 use strict;
 use warnings;
+use 5.008;
 use Math::Trig ':pi';
 use Regexp::Common;
 use Carp 'croak';
@@ -163,7 +164,7 @@ Updates the point's facing direction by radians.
 =cut
 
 sub rotate {
-    $_[0]->{r} = $_[0]->{r} + $_[0]->normalize_radian($_[1]);
+    $_[0]->{r} = $_[0]->normalize_radian($_[0]->{r} + $_[1]);
     1;
 }
 
@@ -254,8 +255,40 @@ Takes a radian argument and returns it between 0 and PI2. Negative numbers are a
 
 sub normalize_radian {
     my ($self, $radians) = @_;
-    my $piDecimal = ($radians / pi2 - int($radians / pi2));
+    my $piDecimal = $radians / pi2 - int($radians / pi2);
     return $piDecimal < 0 ? pi2 + $piDecimal * pi2 : $piDecimal * pi2;
+}
+
+=head2 print_coordinates
+
+Prints a small grid and indicates the location of the point with an '@'.
+
+=cut
+
+sub print_coordinates {
+    my $self = shift;
+
+    print "Coordinates x: $self->{x}, y: $self->{y}, r: $self->{r}\n";
+
+    # print grid
+    my $min_x = $self->{x} + -10;
+    my $max_x = $self->{x} + 10;
+    my $min_y = $self->{y} + -10;
+    my $max_y = $self->{y} + 10;
+
+    print '   ';
+    for ($min_x..$max_x) { printf "%3s", $_ }
+    printf "%3s", "x\n";
+    for my $y (reverse $min_y..$max_y) {
+        printf "%3s", $y;
+        for my $x ($min_x..$max_x) {
+               if ($self->{x} == $x && $self->{y} == $y) { printf "%3s", '@' }
+             else { printf "%3s", '.' }
+        }
+        print "\n";
+    }
+    printf "%3s", "y\n";
+    1;
 }
 
 1;

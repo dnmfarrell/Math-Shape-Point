@@ -1,5 +1,9 @@
 Revision history for Math-Shape-Point
 
+1.01    2014/08/31
+        -Fixed rotate() bug
+        -Added print_coordinates() method
+
 1.00    2014/08/30
         -Added new() args check and tests
         -Added retreat, move_left and move_right

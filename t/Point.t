@@ -1,4 +1,5 @@
 use Test::More;
+use 5.008;
 use strict;
 use warnings;
 use Math::Trig qw/:pi/;
@@ -14,12 +15,14 @@ ok($p->get_location->[0] == 5, 'point x co equals 5');
 ok($p->get_location->[1], 'point y co equals 5');
 
 # rotate
-ok($p->rotate(pi), 'rotate pi');
-ok($p->get_direction == pi, 'point r equals pi');
-ok($p->rotate(pip2), 'rotate pi');
-ok($p->get_direction == pi + pip2, 'point r equals pi + pip2');
-ok($p->rotate(pi), 'rotate pi');
-ok($p->set_direction(0), 'set_direction 0');
+ok $p->rotate(pi), 'rotate pi';
+is $p->get_direction, pi, 'point r equals pi';
+ok $p->rotate(pip2), 'rotate pi';
+is $p->get_direction, pi + pip2, 'point r equals pi + pip2';
+ok $p->rotate(pi), 'rotate pi';
+is $p->get_direction, pip2, 'point r equals pip2';
+ok $p->rotate(- pip2), 'rotate negative pip2';
+is $p->get_direction, 0, 'point r equals 0';
 
 # create origin point
 ok(my $p0 = Math::Shape::Point->new(5, 4, 0), 'create new origin point');
@@ -65,14 +68,30 @@ ok $p->move_right(9), 'move_left 9';
 is $p->{x}, -1, 'point x co equals -1';
 is $p->{y}, 5, 'point y co equals 5';
 
-# reset location for remaining tests
-ok $p->set_location(5, 2), 'reset location';
+ok $p->rotate(pip2), 'rotate pip2';
+is $p->{r}, pi + pip2, 'point faces pi + pip2';
 
-# advance 2
-ok $p->rotate(pip2), 'rotate pi/2';
-ok $p->advance(4), 'advance 1';
-is $p->{x}, 1, 'point x co equals 1';
-is $p->{y}, 2, 'point y co equals 2';
+# $p is now facing PI/2
+
+# advance
+ok($p->advance(2), 'advance 1');
+is $p->{x}, -3, 'point x co equals -3';
+is $p->{y}, 5, 'point y co equals 5';
+
+# retreat
+ok $p->retreat(1), 'retreat 1';
+is $p->{x}, -2, 'point x co equals -2';
+is $p->{y}, 5, 'point y co equals 5';
+
+# move left
+ok $p->move_left(7), 'move_left 3';
+is $p->{x}, -2, 'point x co equals -2';
+is $p->{y}, -2, 'point y co equals -2';
+
+# move right
+ok $p->move_right(20), 'move_left 9';
+is $p->{x}, -2, 'point x co equals -1';
+is $p->{y}, 18, 'point y co equals 18';
 
 # normalize_radian
 ok($p->normalize_radian(10), 'normalize_radian 10');
@@ -109,11 +128,11 @@ ok('right' eq $p1->get_direction_to_point($p0), 'get direction right');
 ok($p1->set_location(0,0), 'set location 0 0');
 ok('back' eq $p0->get_direction_to_point($p1), 'get direction bottom left');
 ok('front' eq $p1->get_direction_to_point($p0), 'get direction top right');
-eval { 
+eval {
     $p0->set_location(0,0);
     $p0->get_direction_to_point($p1);
 };
-ok($@, 'check exception raised when getDirection called on 2 points at the same location');
+ok($@, 'check exception raised when get_direction called on 2 points at the same location');
 
 # negative coordinates tests
 ok($p1->set_location(0,-5), 'set location 0 -5');
@@ -127,6 +146,10 @@ ok($p1->get_direction_to_point($p0) eq 'right', 'get_direction_to_point from neg
 ok($p1->get_distance_to_point($p0) == 8, 'get_distance_to_point from negative x');
 ok($p0->set_location(-7, -1), 'set location -7 -1');
 ok($p0->get_direction_to_point($p1) eq 'left', 'get_direction_to_point from negative x and y');
+
+# coordinates
+ok $p->print_coordinates;
+
 done_testing();
 
 __END__
