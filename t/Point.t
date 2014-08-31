@@ -6,13 +6,15 @@ use Math::Trig qw/:pi/;
 use Test::Exception;
 
 BEGIN { use_ok('Math::Shape::Point', 'use Math::Shape::Point') }
+
 # constructor
 ok(my $p = Math::Shape::Point->new(5, 5, 0), 'create new point');
 dies_ok sub { Math::Shape::Point->new(1,3) }, 'too few args passed to new()';
 dies_ok sub { Math::Shape::Point->new(1,3, 4, undef) }, 'too many args passed to new()';
 
-ok($p->get_location->[0] == 5, 'point x co equals 5');
-ok($p->get_location->[1], 'point y co equals 5');
+is $p->get_location->[0], 5, 'point x co equals 5';
+is $p->get_location->[1], 5, 'point y co equals 5';
+is $p->{r}, 0, 'point r equals 0';
 
 # rotate
 ok $p->rotate(pi), 'rotate pi';
@@ -25,26 +27,36 @@ ok $p->rotate(- pip2), 'rotate negative pip2';
 is $p->get_direction, 0, 'point r equals 0';
 
 # create origin point
-ok(my $p0 = Math::Shape::Point->new(5, 4, 0), 'create new origin point');
-ok($p0->{x} == 5, 'origin point x equals 5');
-ok($p0->{y} == 4, 'origin point y equals 4');
+ok my $p0 = Math::Shape::Point->new(4, 4, 0), 'create new origin point';
+is $p0->{x}, 4, 'origin point x equals 4';
+is $p0->{y}, 4, 'origin point y equals 4';
 
 # get_distance_to_point
-ok($p->get_distance_to_point($p0) == 1, 'get_distance_to_point');
-ok(my $p1 = Math::Shape::Point->new(5, 4, 0), 'create new origin point');
-ok($p->get_distance_to_point($p1) == 1, 'get_distance_to_point');
+is $p->get_distance_to_point($p0), sqrt(2), 'get_distance_to_point';
+ok my $p1 = Math::Shape::Point->new(5, 4, 0), 'create new origin point' ;
+is $p->get_distance_to_point($p1), 1, 'get_distance_to_point';
 
-# rotate about point 1
-ok($p->rotate_about_point($p0, pi2), 'rotate_about_point pi2');
-ok($p->{x} == 5, 'point x co equals 5');
-ok($p->{y} == 5, 'point y co equals 5');
-ok($p->{r} == 0, 'point r equals pi2'); 
+# rotate about point 1 360 degrees
+ok $p->rotate_about_point($p0, pi2), 'rotate_about_point pi2';
+is $p->{x}, 5, 'point x co equals 5';
+is $p->{y}, 5, 'point y co equals 5';
+is $p->{r}, 0, 'point r equals pi2';
 
-# rotate about point 2
-ok($p->rotate_about_point($p0, pi), 'rotate_about_point pi');
-ok($p->{x} == 5, 'point x co equals 5');
-ok($p->{y} == 3, 'point y co equals 3');
-ok($p->{r} == pi, 'point r equals pi'); 
+# rotate about point 1 180 degrees
+ok $p->rotate_about_point($p0, pi), 'rotate_about_point pi';
+is $p->{x}, 3, 'point x co equals 3';
+is $p->{y}, 3, 'point y co equals 3';
+is $p->{r}, pi, 'point r equals pi';
+
+# rotate about point 1 90 degrees
+ok $p->rotate_about_point($p0, pip2), 'rotate_about_point pip2';
+is $p->{x}, 5, 'point x co equals 3';
+is $p->{y}, 3, 'point y co equals 3';
+is $p->{r}, pi + pip2, 'point r equals pi + pip2';
+
+# reset point
+$p->set_location(5,3);
+$p->set_direction(pi);
 
 ## $p is now facing PI ##
 

@@ -181,9 +181,22 @@ Rotates the point around another point of origin. Requires a point object and th
 
 sub rotate_about_point {
     my ($self, $origin, $r) = @_;
-    $r = $self->normalize_radian($r);
-    $self->{x} = $origin->{x} + int(cos($r) * ($self->{x} - $origin->{x}) - sin($r) * ($self->{y} - $origin->{y}));
-    $self->{y} = $origin->{y} + int(sin($r) * ($self->{x} - $origin->{x}) + cos($r) * ($self->{y} - $origin->{y}));
+
+    my $nr = $self->normalize_radian($r);
+    my $s = sin $r;
+    my $c = cos $r;
+
+    $self->{x} -= $origin->{x};
+    $self->{y} -= $origin->{y};
+
+    # rotate point
+    my $xnew = $self->{x} * $c - $self->{y} * $s;
+    my $ynew = $self->{x} * $s + $self->{y} * $c;
+
+    # translate point back:
+    $self->{x} = $xnew + $origin->{x};
+    $self->{y} = $ynew + $origin->{y};
+
     $self->rotate($r);
     1;
 }
@@ -256,8 +269,11 @@ Takes a radian argument and returns it between 0 and PI2. Negative numbers are a
 
 sub normalize_radian {
     my ($self, $radians) = @_;
-    my $piDecimal = $radians / pi2 - int($radians / pi2);
-    return $piDecimal < 0 ? pi2 + $piDecimal * pi2 : $piDecimal * pi2;
+
+    my $pi_ratio = $radians / pi2;
+    $pi_ratio < 1
+        ? $radians
+        : $radians - pi2 * int $pi_ratio;
 }
 
 =head2 print_coordinates
