@@ -1,5 +1,8 @@
 Revision history for Math-Shape-Point
 
+1.02    2014/08/31
+        -Updated constructor to normalize radians
+
 1.01    2014/08/31
         -Fixed rotate() bug
         -Added print_coordinates() method

@@ -40,12 +40,13 @@ Instantiates a new point object. Requires the x and y cartesian coordinates and 
 sub new {
     croak 'Incorrect number of arguments for new()' unless @_ == 4;
     my ($class, $x, $y, $r) = @_;
-    my $self = { 
-        x => $x,
-        y => $y,
-        r => $r,
-    };
-    return bless $self, $class;
+    my $self =  bless { x => $x,
+                        y => $y,
+                        r => 0,
+                      },
+                      $class;
+    $self->rotate($r);
+    return $self;
 }
 
 =head2 get_location
@@ -173,7 +174,7 @@ sub rotate {
 Rotates the point around another point of origin. Requires a point object and the angle in radians to rotate. This method updates the facing direction of the point object, as well as it's location.
 
     my $p1 = Math::Shape::Point->new(0, 0, 0); #new point at 0,0 facing 0 radians.
-    my $p2 = Math::Shape::Point->new(1, 2, 3.14); #new point at 1,2 facing 3.14 radians.
+    my $p2 = Math::Shape::Point->new(1, 2, 0); #new point at 1,2 facing 0 radians.
     $p1->rotate_about_point($p2, 3.14);
 
 =cut

@@ -8,7 +8,7 @@ Math::Shape::Point - a 2d point object in cartesian space with utility angle met
 
 =head1 VERSION
 
-version 1.01
+version 1.02
 
 =head1 SYNOPSIS
 
@@ -95,7 +95,7 @@ Updates the point's facing direction by radians.
 Rotates the point around another point of origin. Requires a point object and the angle in radians to rotate. This method updates the facing direction of the point object, as well as it's location.
 
     my $p1 = Math::Shape::Point->new(0, 0, 0); #new point at 0,0 facing 0 radians.
-    my $p2 = Math::Shape::Point->new(1, 2, 3.14); #new point at 1,2 facing 3.14 radians.
+    my $p2 = Math::Shape::Point->new(1, 2, 0); #new point at 1,2 facing 0 radians.
     $p1->rotate_about_point($p2, 3.14);
 
 =head2 get_distance_to_point
