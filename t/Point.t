@@ -50,8 +50,8 @@ is $p->{r}, pi, 'point r equals pi';
 
 # rotate about point 1 90 degrees
 ok $p->rotate_about_point($p0, pip2), 'rotate_about_point pip2';
-is $p->{x}, 3, 'point x co equals 3';
-is $p->{y}, 5, 'point y co equals 5';
+is $p->{x}, 5, 'point x co equals 3';
+is $p->{y}, 3, 'point y co equals 5';
 is $p->{r}, pi + pip2, 'point r equals pi + pip2';
 
 # rotate about point 1 -90 degrees
@@ -59,6 +59,32 @@ ok $p->rotate_about_point($p0, - pip2), 'rotate_about_point negative pip2';
 is $p->{x}, 3, 'point x co equals 3';
 is $p->{y}, 3, 'point y co equals 3';
 is $p->{r}, pi, 'point r equals pi';
+
+# rotate about point 1 360 degrees
+my $p2 = Math::Shape::Point->new(5,3,0);
+
+ok $p2->rotate_about_point($p0, pi2), 'rotate_about_point pi2';
+is $p2->{x}, 5, 'point x co equals 5';
+is $p2->{y}, 3, 'point y co equals 3';
+is $p2->{r}, 0, 'point r equals pi2';
+
+# rotate about point 1 180 degrees
+ok $p2->rotate_about_point($p0, pi), 'rotate_about_point pi';
+is $p2->{x}, 3, 'point x co equals 3';
+is $p2->{y}, 5, 'point y co equals 5';
+is $p2->{r}, pi, 'point r equals pi';
+
+# rotate about point 1 90 degrees
+ok $p2->rotate_about_point($p0, pip2), 'rotate_about_point pip2';
+is $p2->{x}, 3, 'point x co equals 3';
+is $p2->{y}, 3, 'point y co equals 3';
+is $p2->{r}, pi + pip2, 'point r equals pi + pip2';
+
+# rotate about point 1 -90 degrees
+ok $p2->rotate_about_point($p0, - pip2), 'rotate_about_point negative pip2';
+is $p2->{x}, 3, 'point x co equals 3';
+is $p2->{y}, 5, 'point y co equals 5';
+is $p2->{r}, pi, 'point r equals pi';
 
 # reset point
 $p->set_location(5,3);

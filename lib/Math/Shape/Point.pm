@@ -183,8 +183,8 @@ sub rotate_about_point {
     my ($self, $origin, $r) = @_;
 
     my $nr = $self->normalize_radian($r);
-    $nr = $nr > 0 ? pi2 - $nr
-                  : abs $nr;
+#    $nr = $nr > 0 ? pi2 - $nr
+#                  : abs $nr;
 
     my $s = sin $nr;
     my $c = cos $nr;

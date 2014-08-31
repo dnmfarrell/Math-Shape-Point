@@ -1,5 +1,8 @@
 Revision history for Math-Shape-Point
 
+1.05    2014/08/31
+        -Fixed rotate_about_point() to revert previous (breaking) change
+
 1.04    2014/08/31
         -Fixed rotate_about_point() to move clockwise for positive and anti-clockwise for negative radians
 
