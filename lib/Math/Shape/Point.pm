@@ -112,6 +112,48 @@ sub advance {
     1;
 }
 
+=head2 retreat
+
+Requires a numeric distance argument - moves the point backwards that distance in Cartesian coordinates from the direction it is facing.
+
+    $p->retreat(5);
+
+=cut
+
+sub retreat {
+    $_[0]->{x} -= int(sin($_[0]->{r}) * $_[1]);
+    $_[0]->{y} -= int(cos($_[0]->{r}) * $_[1]);
+    1;
+}
+
+=head2 move_left
+
+Requires a numeric distance argument - moves the point that distance to the left.
+
+    $p->move_left(3);
+
+=cut
+
+sub move_left {
+    $_[0]->{x} += int(sin( $_[0]->{r} - pip2 ) * $_[1]);
+    $_[0]->{y} += int(cos( $_[0]->{r} - pip2 ) * $_[1]);
+    1;
+}
+
+=head2 move_right
+
+Requires a numeric distance argument - moves the point that distance to the right.
+
+    $p->move_right(7);
+
+=cut
+
+sub move_right {
+    $_[0]->{x} += int(sin( $_[0]->{r} + pip2 ) * $_[1]);
+    $_[0]->{y} += int(cos( $_[0]->{r} + pip2 ) * $_[1]);
+    1;
+}
+
 =head2 rotate
 
 Updates the point's facing direction by radians.

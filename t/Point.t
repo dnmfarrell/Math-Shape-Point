@@ -43,16 +43,36 @@ ok($p->{x} == 5, 'point x co equals 5');
 ok($p->{y} == 3, 'point y co equals 3');
 ok($p->{r} == pi, 'point r equals pi'); 
 
+## $p is now facing PI ##
+
 # advance 1
 ok($p->advance(1), 'advance 1');
 ok($p->{x} == 5, 'point x co equals 5');
 ok($p->{y} == 2, 'point y co equals 2');
 
+# retreat
+ok $p->retreat(3), 'retreat 1';
+is $p->{x}, 5, 'point x co equals 5';
+is $p->{y}, 5, 'point y co equals 5';
+
+# move left
+ok $p->move_left(3), 'move_left 3';
+is $p->{x}, 8, 'point x co equals 8';
+is $p->{y}, 5, 'point y co equals 5';
+
+# move right
+ok $p->move_right(9), 'move_left 9';
+is $p->{x}, -1, 'point x co equals -1';
+is $p->{y}, 5, 'point y co equals 5';
+
+# reset location for remaining tests
+ok $p->set_location(5, 2), 'reset location';
+
 # advance 2
-ok($p->rotate(pip2), 'rotate pi/2');
-ok($p->advance(4), 'advance 1');
-ok($p->{x} == 1, 'point x co equals 1');
-ok($p->{y} == 2, 'point y co equals 2');
+ok $p->rotate(pip2), 'rotate pi/2';
+ok $p->advance(4), 'advance 1';
+is $p->{x}, 1, 'point x co equals 1';
+is $p->{y}, 2, 'point y co equals 2';
 
 # normalize_radian
 ok($p->normalize_radian(10), 'normalize_radian 10');
@@ -61,7 +81,7 @@ ok($p->normalize_radian(pi), 'normalize_radian pi');
 ok($p->normalize_radian(pip2), 'normalize_radian pip2');
 ok($p->normalize_radian(pip4), 'normalize_radian pip4');
 
-# getDirection
+# get_direction
 ok($p0->set_direction(0), 'set direction 0');
 ok($p1->set_direction(0), 'set direction 0');
 ok($p0->set_location(1,1), 'set location 1 1');
