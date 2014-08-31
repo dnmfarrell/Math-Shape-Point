@@ -50,9 +50,15 @@ is $p->{r}, pi, 'point r equals pi';
 
 # rotate about point 1 90 degrees
 ok $p->rotate_about_point($p0, pip2), 'rotate_about_point pip2';
-is $p->{x}, 5, 'point x co equals 3';
-is $p->{y}, 3, 'point y co equals 3';
+is $p->{x}, 3, 'point x co equals 3';
+is $p->{y}, 5, 'point y co equals 5';
 is $p->{r}, pi + pip2, 'point r equals pi + pip2';
+
+# rotate about point 1 -90 degrees
+ok $p->rotate_about_point($p0, - pip2), 'rotate_about_point negative pip2';
+is $p->{x}, 3, 'point x co equals 3';
+is $p->{y}, 3, 'point y co equals 3';
+is $p->{r}, pi, 'point r equals pi';
 
 # reset point
 $p->set_location(5,3);
@@ -106,11 +112,14 @@ is $p->{x}, -2, 'point x co equals -1';
 is $p->{y}, 18, 'point y co equals 18';
 
 # normalize_radian
-ok($p->normalize_radian(10), 'normalize_radian 10');
-ok(0 == $p->normalize_radian(pi2), 'normalize_radian pi2');
-ok($p->normalize_radian(pi), 'normalize_radian pi');
-ok($p->normalize_radian(pip2), 'normalize_radian pip2');
-ok($p->normalize_radian(pip4), 'normalize_radian pip4');
+is $p->normalize_radian(pi2),       0,          'normalize_radian pi2';
+is $p->normalize_radian(pi),        pi,         'normalize_radian pi';
+is $p->normalize_radian(pip2),      pip2,       'normalize_radian pip2';
+is $p->normalize_radian(pip4),      pip4,       'normalize_radian pip4';
+is $p->normalize_radian(pi2 * 3),   0,          'normalize_radian pi2 * 3';
+is $p->normalize_radian(pi * 4),    0,          'normalize_radian pi * 4';
+is $p->normalize_radian(pip2 * 5),  pip2,       'normalize_radian pip2 5 3';
+is $p->normalize_radian(pip4 * 14), pi + pip2,  'normalize_radian pip4 * 14';
 
 # get_direction
 ok($p0->set_direction(0), 'set direction 0');
