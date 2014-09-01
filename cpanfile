@@ -1,5 +1,5 @@
 requires "Carp" => "0";
-requires "Math::Trig" => "0";
+requires "Math::Trig" => "1.22";
 requires "Regexp::Common" => "0";
 requires "perl" => "5.008";
 requires "strict" => "0";

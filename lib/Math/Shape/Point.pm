@@ -3,7 +3,7 @@ package Math::Shape::Point;
 use strict;
 use warnings;
 use 5.008;
-use Math::Trig ':pi' => 1.22;
+use Math::Trig ':pi' 1.22;
 use Regexp::Common;
 use Carp 'croak';
 
